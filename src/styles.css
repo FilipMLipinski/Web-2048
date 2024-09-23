@@ -1,8 +1,8 @@
-button[clicked="clicked"] {
+div[clicked="clicked"] {
     background-color:rgb(243, 161, 61)
 }
 
-button[clicked="unclicked"]{
+div[clicked="unclicked"]{
     background-color:beige
 }
 
@@ -12,10 +12,12 @@ button[clicked="unclicked"]{
     text-align:center;
     text-decoration:none;
     color: white;
-    font-size:large;
+    font-size:x-large;
     border:none;
     display:inline-block;
     margin: 2px;
+    vertical-align: middle;
+    line-height: 100px;
 }
 
 .gameWindow{

@@ -9,23 +9,109 @@ function RestartButton() {
 }
 
 function GameWindow () {
-  const [squares, setSquares] = useState(Array(16).fill(0)); 
+  const [squares, setSquares] = useState(Array(16).fill(0));
+
+  function transposed(sq){
+    let nsq = Array(16).fill(0);
+    for(let c=0;c<4;c++){
+      for(let r=0;r<4;r++){
+        nsq[4*r+c] = squares[4*c+r];
+      }
+    }
+    return nsq;
+  }
+
+  function rowReversed(sq){
+    let nsq = Array(16).fill(0);
+    for(let r=0;r<16;r+=4){
+      for(let i=0;i<4;i++){
+        nsq[r+i] = sq[r+(3-i)]; 
+      }
+    }
+    return nsq;
+  }
+
+  function makeMove(moveName, sq){
+    if(moveName==="RIGHT"){
+      let nsq = rowReversed(sq);
+      nsq = makeMove("LEFT", nsq);
+      nsq = rowReversed(nsq);
+      return nsq;
+    }
+    if(moveName==="LEFT"){
+      let nsquares = sq.slice();
+      for(let r=0; r<16; r+=4){
+        let top=0;
+        let cval;
+        let pairing = false;
+        for(let cidx=0;cidx<4;cidx++){
+          if(nsquares[r+cidx]===0){
+            continue;
+          }
+          if(pairing && nsquares[r+cidx]===cval){
+            nsquares[r+top] = cval*2;
+            top+=1;
+            nsquares[r+cidx] = 0;
+            pairing = false;
+          } 
+          else{
+            if(pairing){
+              top+=1;
+            }
+            if(cidx!==top){
+              nsquares[r+top] = nsquares[r+cidx];
+              nsquares[r+cidx] = 0;
+            }
+            cval = nsquares[r+top];
+            pairing = true;
+          }
+        }
+      }
+      return nsquares;
+    }
+  }
+
+  function makeRandomAppear(sq){
+    let nextSquares = sq.slice();
+    let freeIndices = [];
+    for(let i=0;i<squares.length;i++){
+      if(squares[i]===0){
+        freeIndices.push(i);
+      }
+    }
+    if(freeIndices.length>0){
+      const r = Math.floor(Math.random()*freeIndices.length);
+      const idx = freeIndices[r];
+      nextSquares[idx] = 2;
+    }
+    return nextSquares;
+  }
+
   function handleKeyPress(event){
-    console.log(event.key);
+    let sqslice = squares.slice();
+    let movedSquares = sqslice;
+    if(event.key==="a"){
+      movedSquares = makeMove("LEFT", sqslice);
+    }
+    else if(event.key==="d"){
+      movedSquares = makeMove("RIGHT", sqslice);
+    }
+    const addedRandom = makeRandomAppear(movedSquares);
+    setSquares(addedRandom);
   }
   function handleClick(i) {
     let nextSquares = squares.slice();
     if(squares[i]){
-      nextSquares[i] = null;
+      nextSquares[i] = 0;
     }
     else{
-      nextSquares[i] = 2048;
+      nextSquares[i] = 2;
     }
     setSquares(nextSquares);
   }
   return(
     <>
-    <div className="gameWindow" onKeyDown={handleKeyPress}>
+    <div className="gameWindow" tabIndex={0} onKeyDown={handleKeyPress}>
       <div className="gameRow">
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
@@ -60,15 +146,15 @@ function Square({value, onSquareClick}) {
   let message = "";
   if(value){
     clickedStatus = "clicked";
-    message = "hello";
+    message = value;
   }
   else{
     clickedStatus = "unclicked";
   }
   return(
-    <button clicked={clickedStatus} className="square" onClick={onSquareClick}>
+    <div clicked={clickedStatus} className="square" onClick={onSquareClick}>
       {message}
-    </button>
+    </div>
   );
 }
 
