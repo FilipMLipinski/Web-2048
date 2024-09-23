@@ -15,7 +15,7 @@ function GameWindow () {
     let nsq = Array(16).fill(0);
     for(let c=0;c<4;c++){
       for(let r=0;r<4;r++){
-        nsq[4*r+c] = squares[4*c+r];
+        nsq[4*r+c] = sq[4*c+r];
       }
     }
     return nsq;
@@ -32,13 +32,27 @@ function GameWindow () {
   }
 
   function makeMove(moveName, sq){
-    if(moveName==="RIGHT"){
+    if(moveName==="DOWN"){
+      sq = transposed(sq);
+      sq = rowReversed(sq);
+      sq = makeMove("LEFT", sq);
+      sq = rowReversed(sq);
+      sq = transposed(sq);
+      return sq;
+    }
+    else if(moveName==="UP"){
+      sq = transposed(sq);
+      sq = makeMove("LEFT", sq);
+      sq = transposed(sq);
+      return sq;
+    }
+    else if(moveName==="RIGHT"){
       let nsq = rowReversed(sq);
       nsq = makeMove("LEFT", nsq);
       nsq = rowReversed(nsq);
       return nsq;
     }
-    if(moveName==="LEFT"){
+    else if(moveName==="LEFT"){
       let nsquares = sq.slice();
       for(let r=0; r<16; r+=4){
         let top=0;
@@ -69,13 +83,16 @@ function GameWindow () {
       }
       return nsquares;
     }
+    else{
+      return sq;
+    }
   }
 
   function makeRandomAppear(sq){
     let nextSquares = sq.slice();
     let freeIndices = [];
-    for(let i=0;i<squares.length;i++){
-      if(squares[i]===0){
+    for(let i=0;i<sq.length;i++){
+      if(sq[i]===0){
         freeIndices.push(i);
       }
     }
@@ -88,6 +105,10 @@ function GameWindow () {
   }
 
   function handleKeyPress(event){
+    let legalmoves = ["a", "d", "w", "s"];
+    if(!legalmoves.includes(event.key)){
+      return;
+    }
     let sqslice = squares.slice();
     let movedSquares = sqslice;
     if(event.key==="a"){
@@ -96,18 +117,33 @@ function GameWindow () {
     else if(event.key==="d"){
       movedSquares = makeMove("RIGHT", sqslice);
     }
-    const addedRandom = makeRandomAppear(movedSquares);
-    setSquares(addedRandom);
+    else if(event.key==="w"){
+      movedSquares = makeMove("UP", sqslice);
+    }
+    else if(event.key==="s"){
+      movedSquares = makeMove("DOWN", sqslice);
+    }
+    let changed = false;
+    for(let i=0;i<16;i++){
+      if(squares[i]!==movedSquares[i]){
+        changed = true;
+      }
+    }
+    if(changed){
+      setSquares(makeRandomAppear(movedSquares));
+    }
   }
   function handleClick(i) {
     let nextSquares = squares.slice();
-    if(squares[i]){
-      nextSquares[i] = 0;
+    let empty = true;
+    for(let i=0;i<16;i++){
+      if(squares[i]!==0){
+        empty = false;
+      }
     }
-    else{
-      nextSquares[i] = 2;
+    if(empty){
+      setSquares(makeRandomAppear(nextSquares));
     }
-    setSquares(nextSquares);
   }
   return(
     <>
@@ -152,7 +188,7 @@ function Square({value, onSquareClick}) {
     clickedStatus = "unclicked";
   }
   return(
-    <div clicked={clickedStatus} className="square" onClick={onSquareClick}>
+    <div value={value} clicked={clickedStatus} className="square" onClick={onSquareClick}>
       {message}
     </div>
   );

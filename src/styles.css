@@ -6,13 +6,57 @@ div[clicked="unclicked"]{
     background-color:beige
 }
 
+div[value="2"]{
+    background-color: rgb(250, 221, 186);
+}
+
+div[value="4"]{
+    background-color: rgb(249, 205, 151);
+}
+
+div[value="8"]{
+    background-color:rgb(251, 196, 129) ;
+}
+
+div[value="16"]{
+    background-color: rgb(252, 179, 90);
+}
+
+div[value="32"]{
+    background-color: rgb(251, 164, 58);   
+}
+
+div[value="64"]{
+    background-color: rgb(242, 140, 15);
+}
+
+div[value="128"]{
+    background-color: rgb(226, 124, 0);
+}
+
+div[value="256"]{
+    background-color: rgb(215, 121, 55);
+}
+
+div[value="512"]{
+    background-color:rgb(223, 110, 88);
+}
+
+div[value="1024"]{
+    background-color: rgb(247, 85, 53);
+}
+
+div[value="2048"]{
+    background-color: rgb(207, 34, 0);
+}
+
 .square{
     height:100px;
     width:100px;
     text-align:center;
     text-decoration:none;
     color: white;
-    font-size:x-large;
+    font-size:xx-large;
     border:none;
     display:inline-block;
     margin: 2px;
