@@ -1,0 +1,35 @@
+button[clicked="clicked"] {
+    background-color:rgb(243, 161, 61)
+}
+
+button[clicked="unclicked"]{
+    background-color:beige
+}
+
+.square{
+    height:100px;
+    width:100px;
+    text-align:center;
+    text-decoration:none;
+    color: white;
+    font-size:large;
+    border:none;
+    display:inline-block;
+    margin: 2px;
+}
+
+.gameWindow{
+    display:flex;
+    flex-direction:column;
+}
+
+.gameRow{
+    display:flex;
+}
+
+#app{
+    display:flex;
+    background-color: white;
+    align-items: center;
+    justify-content: space-around;
+}
