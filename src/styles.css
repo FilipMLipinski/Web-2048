@@ -7,47 +7,47 @@ div[clicked="unclicked"]{
 }
 
 div[value="2"]{
-    background-color: rgb(250, 221, 186);
+    background-color: rgb(247, 214, 174);
 }
 
 div[value="4"]{
-    background-color: rgb(249, 205, 151);
+    background-color: rgb(247, 188, 116);
 }
 
 div[value="8"]{
-    background-color:rgb(251, 196, 129) ;
+    background-color:rgb(250, 169, 70) ;
 }
 
 div[value="16"]{
-    background-color: rgb(252, 179, 90);
+    background-color: rgb(249, 140, 8);
 }
 
 div[value="32"]{
-    background-color: rgb(251, 164, 58);   
+    background-color: rgb(253, 117, 33);   
 }
 
 div[value="64"]{
-    background-color: rgb(242, 140, 15);
+    background-color: rgb(242, 83, 15);
 }
 
 div[value="128"]{
-    background-color: rgb(226, 124, 0);
+    background-color: rgb(254, 73, 73);
 }
 
 div[value="256"]{
-    background-color: rgb(215, 121, 55);
+    background-color: rgb(249, 47, 40);
 }
 
 div[value="512"]{
-    background-color:rgb(223, 110, 88);
+    background-color:rgb(255, 22, 5);
 }
 
 div[value="1024"]{
-    background-color: rgb(247, 85, 53);
+    background-color: rgb(201, 0, 0);
 }
 
 div[value="2048"]{
-    background-color: rgb(207, 34, 0);
+    background-color: rgb(159, 41, 17);
 }
 
 .square{
@@ -62,11 +62,20 @@ div[value="2048"]{
     margin: 2px;
     vertical-align: middle;
     line-height: 100px;
+    font-family:'Tahoma';
 }
 
-.gameWindow{
+#gameBoard{
     display:flex;
     flex-direction:column;
+}
+
+#timer{
+    font-size:xx-large;
+}
+
+#gameWindow{
+    display:flex;
 }
 
 .gameRow{
